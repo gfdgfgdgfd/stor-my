@@ -1,117 +1,394 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>أنا مبرمج ومصمم | دستورم</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>دستورم | مركز الخدمات الذكية</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Cairo', sans-serif;
       margin: 0;
       background: #0f0f0f;
-      color: #f5f5f5;
+      color: #f0f0f0;
+      overflow-x: hidden;
     }
 
     header {
-      background: linear-gradient(to left, #1a1a1a, #00ffc8);
+      background: linear-gradient(to left, #1a1a1a, #222);
+      padding: 20px;
       text-align: center;
-      padding: 60px 20px;
+      font-size: 26px;
+      font-weight: bold;
+      border-bottom: 2px solid #2c2c2c;
+      color: #00ffcc;
     }
 
-    header h1 {
-      font-size: 36px;
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 30px;
+    }
+
+    .product {
+      background: #1c1c1c;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(0, 255, 200, 0.1);
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .product:hover {
+      transform: translateY(-5px);
+    }
+
+    .product h3 {
       margin-bottom: 10px;
+      color: #00ffd9;
     }
 
-    header p {
-      font-size: 20px;
-      color: #111;
-    }
-
-    section {
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 0 20px;
-    }
-
-    .btn {
+    .product button {
       background: #00ffc8;
       color: #000;
-      padding: 12px 20px;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: transform 0.3s, background 0.3s;
+    }
+
+    .product button:hover {
+      background: #00c4a3;
+      transform: scale(1.05);
+    }
+
+    .cart-toggle {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: #1a1a1a;
+      color: #00ffcc;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 12px;
+      z-index: 1000;
+      cursor: pointer;
+      font-weight: bold;
+      transition: transform 0.3s ease;
+    }
+
+    .cart-toggle:hover {
+      transform: scale(1.05);
+    }
+
+    .side-cart {
+      position: fixed;
+      right: -400px;
+      top: 0;
+      width: 350px;
+      height: 100vh;
+      background: linear-gradient(135deg, #111, #1e1e1e);
+      color: white;
+      padding: 30px;
+      box-shadow: -8px 0 20px rgba(0,0,0,0.7);
+      transition: right 0.4s ease;
+      z-index: 999;
+      overflow-y: auto;
+      border-radius: 20px 0 0 20px;
+    }
+
+    .side-cart.active {
+      right: 0;
+    }
+
+    .side-cart h2 {
+      margin-top: 0;
+      font-size: 22px;
+      color: #00ffcc;
+    }
+
+    .side-cart button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      background: #00ffc8;
       border: none;
       border-radius: 10px;
-      text-decoration: none;
+      color: #000;
       font-weight: bold;
-      display: inline-block;
-      margin-top: 20px;
+      transition:  0.3s ease;
     }
 
-    .skills ul {
-      list-style: none;
-      padding: 0;
-      line-height: 2;
+    .side-cart button:hover {
+      background: #00c4a3;
     }
 
-    .project {
-      background: #1f1f1f;
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 0 10px rgba(0,255,200,0.1);
+    #cartItems div {
+      padding: 8px;
+      border-bottom: 1px solid #333;
     }
 
     footer {
+      background: #1a1a1a;
       text-align: center;
       padding: 20px;
-      color: #888;
-      font-size: 14px;
+      border-top: 2px solid #2c2c2c;
+      margin-top: 40px;
+      color: #999;
+    }
+
+    #whatsapp {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: #25D366;
+      color: white;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-weight: bold;
+      text-decoration: none;
+      z-index: 1000;
+    }
+
+    .feedback-section {
+      padding: 30px;
+      background: #1c1c1c;
+      margin: 20px;
+      border-radius: 16px;
+    }
+
+    .whatsapp-btn {
+      background: #25d366;
+      display: block;
+      margin: 20px auto;
+      padding: 15px;
+      text-align: center;
+      color: white;
+      border-radius: 8px;
+      font-size: 18px;
+      width: fit-content;
+      text-decoration: none;
+    }
+
+    .feedback {
+      background: #2b2b2b;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    .stars {
+      color: gold;
+    }
+
+    .feedback-form input, .feedback-form select, .feedback-form button {
+      padding: 10px;
+      margin: 10px 5px;
+      border-radius: 6px;
+      border: none;
+    }
+
+    .feedback-form button {
+      background: #00ffc8;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
 
-<header>
-  <h1>أنا صاحب متجر دستورم</h1>
-  <p>مصمم شعارات وبكجات متاجر وبوستات | مبرمج مواقع وواجهات ولوحات سكالفورد</p>
-  <a href="https://wa.me/966580814005" class="btn">💬 تواصل مباشر على واتساب</a>
-</header>
+  <button onclick="toggleCart()" class="cart-toggle">🛒 السلة</button>
+  <a class="whatsapp-btn" href="https://wa.me/80814005" target="_blank" onclick="sendLogToDiscord('📦 تم الضغط على زر إتمام الطلب عبر واتساب')">إتمام الطلب عبر واتساب</a>
 
-<section class="intro">
-  <h2>عن المتجر</h2>
-  <p>دستورم هو متجر  يقدم حلول تصميم وبرمجة عالية الجودة، حيث أقدّم خدمات تصميم الشعارات، البوستات، الهويات التجارية، والمتاجر الإلكترونية، إلى جانب برمجة مواقع كاملة تشمل لوحة تحكم وتصميم مخصص.</p>
+  <header>🚀 دستورم | مركز الخدمات الذكية</header>
+
+  <!-- قسم من نحن -->
+  <section class="feedback-section" style="margin-top: 40px;">
+    <h2>من نحن</h2>
+    <p style="line-height: 2; font-size: 18px;">
+      نحن في <strong>دستورم</strong> نؤمن أن التميّز الرقمي يبدأ من الفكرة ويُترجم إلى تصميم وواجهة وتجربة استثنائية.
+      نحن فريق سعودي محترف متخصص في تصميم الهويات التجارية، برمجة المواقع، وتقديم حلول ذكية تعزز حضورك الرقمي.
+      نهدف إلى تمكين رواد الأعمال والمؤسسات من بناء علامة تجارية قوية وموثوقة عبر خدماتنا الإبداعية والعملية.
+      <br><br>
+      🚀 خبرة +5 سنوات في السوق الخليجي والعربي.<br>
+      🎯 أكثر من 250 مشروع ناجح.<br>
+      🤝 رضا العملاء هو أولويتنا.
+    </p>
+  </section>
+
+  <!-- المنتجات -->
+  <section class="products" id="productList">
+    <div class="product">
+      <h3>🖌️ تصميم لوقو احترافي</h3>
+      <p>احصل على شعار (لوقو) يعكس هوية مشروعك باحترافية وذوق عالي...</p>
+      <button onclick="addToCart('🖌️ تصميم لوقو احترافي ')">إضافة للسلة</button>
+    </div>
+    <div class="product">
+      <h3>📦 بكج متجر احترافي</h3>
+      <p>صمّم متجرك بشكل جذاب واحترافي مع هذا البكج المميز!...</p>
+      <button onclick="addToCart(' 📦 بكج متجر احترافي')">إضافة للسلة</button>
+    </div>
+    <div class="product">
+      <h3>💻 برمجة موقع احترافي بالكامل</h3>
+      <p>أقدّم لك خدمة برمجة وتصميم موقع إلكتروني متكامل...</p>
+      <button onclick="addToCart(' 💻 برمجة موقع احترافي بالكامل')">إضافة للسلة</button>
+    </div>
+  </section>
+
+  <!-- حاسبة تفاعلية -->
+  <section class="feedback-section">
+  <h2 style="text-align:center; color:#00ffc8;">💰 احسب تكلفة خدمتك</h2>
+  <form oninput="updateEstimate()" style="max-width: 500px; margin: auto;">
+    <div style="margin-bottom: 20px;">
+      <label><strong>🧩 نوع الخدمة:</strong></label>
+      <select id="serviceType" style="width: 100%; padding: 12px; margin-top: 8px; border-radius: 8px; border: none;">
+       <option value="10">🖌️ تصميم لوقو - 10 ر.س</option>
+        <option value="30">📦 بكج متجر - 30 ر.س</option>
+        <option value="70">💻 موقع إلكتروني - 70 ر.س</option>
+      </select>
+    </div>
+
+    <div style="margin-bottom: 20px;">
+      <label><strong>✏️ عدد التعديلات:</strong></label>
+      <select id="revisions" style="width: 100%; padding: 12px; margin-top: 8px; border-radius: 8px; border: none;">
+      <option value="0">بدون تعديلات</option>
+      <option value="0">1 تعديل - مجانًا</option>
+      <option value="0">2 تعديلات - مجانًا</option>
+</select>
+
+      </select>
+    </div>
+
+    <div style="margin-bottom: 20px;">
+      <label><strong>⏰ سرعة التنفيذ:</strong></label>
+      <select id="urgency" style="width: 100%; padding: 12px; margin-top: 8px; border-radius: 8px; border: none;">
+        <option value="0">عادي (3-5 أيام)</option>
+        <option value="30">مستعجل (48 ساعة) - 30 ر.س</option>
+      </select>
+    </div>
+
+    <div style="background: #2b2b2b; padding: 20px; border-radius: 12px; text-align: center; margin-top: 30px;">
+      <h3 style="color:#00ffc8;">📊 التكلفة التقديرية</h3>
+      <p style="font-size: 26px; font-weight: bold;"><span id="estimate">0</span> ر.س</p>
+    </div>
+  </form>
 </section>
 
-<section class="skills">
-  <h2>🛠️ المهارات</h2>
-  <ul>
-    <li>✔️ تصميم شعارات وهوية بصرية</li>
-    <li>✔️ تصميم بكجات متاجر احترافية</li>
-    <li>✔️ تصميم بوستات تسويقية</li>
-    <li>✔️ برمجة مواقع </li>
-    <li>✔️ برمجة لوحة تحكم سكالفورد</li>
-  </ul>
-</section>
 
-<section class="projects">
-  <h2>📂 بعض أعمالي</h2>
-  <div class="project">
-   <h3>موقع سكالفورد  </h3>
-    <p>برمجة موقع كامل  </p>
+  <!-- جدول الباقات -->
+  <section class="feedback-section">
+    <h2>📦 خطط الأسعار</h2>
+    <table style="width:100%; text-align:center; border-collapse: collapse;">
+      <tr style="background:#2c2c2c;">
+        <th>الباقة</th>
+        <th>المميزات</th>
+        <th>السعر</th>
+      </tr>
+      <tr>
+        <td>أساسي</td>
+        <td>تصميم لوقو + تعديل واحد + تسليم خلال 5 أيام</td>
+        <td>30 ر.س</td>
+      </tr>
+      <tr>
+        <td>احترافي</td>
+        <td>لوقو + 10 بوستات + هويّة بكج متجر متكامل</td>
+        <td>120 ر.س</td>
+      </tr>
+      <tr>
+        <td>VIP</td>
+        <td>موقع + لوقو + بوستات + هوية</td>
+        <td>150 ر.س</td>
+      </tr>
+    </table>
+  </section>
+
+  <!-- زر حجز استشارة -->
+  <section class="feedback-section">
+    <h2>📞 احجز استشارتك المجانية</h2>
+    <p>حاب تبدأ مشروعك ومحتاج توجيه؟ احجز مكالمة مجانية مدتها 15 دقيقة مع أحد خبرائنا.</p>
+    <a href="https://wa.me/96680814005" target="_blank" class="whatsapp-btn">احجز الآن عبر واتساب</a>
+  </section>
+
+  <!-- معرض الأعمال -->
+  <section class="feedback-section">
+    <h2>🎨 معرض الأعمال</h2>
+    <p>بعض من المشاريع اللي نفذناها:</p>
+    <ul style="line-height:2;">
+      <li>📌 انشاء موقع لمتجر   "سكالفورد" الإلكتروني</li>
+    </ul>
+    <p>نرسل لك أمثلة مفصّلة عند الطلب عبر الواتساب.</p>
+  </section>
+
+  <!-- باقي السكريبت -->
+  <div id="sideCart" class="side-cart">
+    <h2>🛒 سلتك</h2>
+    <div id="cartItems">حط منتجاتك في السلةوصور ولاتدفع وكلمنا واتساب  </div>
+    <button onclick="goToCheckout()">الدفع الآن</button>
   </div>
-</section>
 
-<section>
-  <h2>📞 تواصل معي</h2>
-  <p>راسلني عبر:</p>
-  <a class="btn" href="https://wa.me/966580814005" target="_blank">💬 واتساب</a>
-  <br><br>
-  <a class="btn" href="https://t.me/DOSTORM1" target="_blank">📨 تيليجرام: @DOSTORM1</a>
-</section>
+  <section class="feedback-section">
+    <h2>⭐ آراء العملاء</h2>
+    <div class="feedback">
+      <p>خدمة ممتازة جدًا 🔥</p>
+      <div class="stars">⭐⭐⭐⭐⭐</div>
+    </div>
+    <form class="feedback-form" onsubmit="submitFeedback(); return false;">
+      <input type="text" id="feedbackText" placeholder="اكتب رأيك..." required>
+      <select id="feedbackStars">
+        <option>⭐</option><option>⭐⭐</option><option>⭐⭐⭐</option><option>⭐⭐⭐⭐</option><option selected>⭐⭐⭐⭐⭐</option>
+      </select>
+      <button type="submit">إرسال</button>
+    </form>
+    <div id="feedbackContainer"></div>
+  </section>
 
-<footer>
-  جميع الحقوق محفوظة © دستورم 2025
-</footer>
+  <footer>جميع الحقوق محفوظة © دستورم 2025</footer>
+
+  <script>
+    let cart = [];
+
+    function toggleCart() {
+      document.getElementById("sideCart").classList.toggle("active");
+    }
+
+    function addToCart(productName) {
+      cart.push(productName);
+      updateCartDisplay();
+    }
+
+    function updateCartDisplay() {
+      const cartItems = document.getElementById("cartItems");
+      if (cart.length === 0) {
+        cartItems.innerHTML = "حط منتجاتك ولاتدفع صور المنتجات وكلمنا في الواتس ";
+      } else {
+        cartItems.innerHTML = cart.map(item => `<div>✔️ ${item}</div>`).join('');
+      }
+    }
+
+    function goToCheckout() {
+      localStorage.setItem("cart", JSON.stringify(cart));
+      window.location.href = "checkout.html";
+    }
+
+    function submitFeedback() {
+      const text = document.getElementById("feedbackText").value;
+      const stars = document.getElementById("feedbackStars").value;
+      const container = document.getElementById("feedbackContainer");
+      container.innerHTML += `<div class='feedback'><p>${text}</p><div class='stars'>${stars}</div></div>`;
+      document.querySelector(".feedback-form").reset();
+    }
+
+    function updateEstimate() {
+      const base = parseInt(document.getElementById('serviceType').value);
+      const revisions = parseInt(document.getElementById('revisions').value);
+      const urgency = parseInt(document.getElementById('urgency').value);
+      document.getElementById('estimate').innerText = base + revisions + urgency;
+    }
+  </script>
 
 </body>
 </html>
